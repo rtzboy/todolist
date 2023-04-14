@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react';
-import { TodoData } from '../../App';
+import { TodoData, TodoListReducerType } from '../../types/TodoTasksTypes';
 
 type TodoListContextType = {
 	todoListData: TodoData[];
-	setTodoListData: React.Dispatch<React.SetStateAction<TodoData[]>>;
+	dispatchTodoList: React.Dispatch<TodoListReducerType>;
 };
 
 export const TodoListContext = createContext<TodoListContextType>({} as TodoListContextType);
