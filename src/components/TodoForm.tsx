@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getTodoList, putTodoList } from '../helpers/localStorage';
+import { useTodoListContext } from '../lib/contexts/TodoListContext';
 
-type Props = {};
-
-const TodoForm = (props: Props) => {
+const TodoForm = () => {
+	const { setTodoListData } = useTodoListContext();
 	const [description, setDescription] = useState<string>('');
 
 	const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
@@ -15,6 +15,7 @@ const TodoForm = (props: Props) => {
 			{ id: uuidv4(), description, completed: false, date: Date.now() }
 		];
 		putTodoList('todoList', newTodoList);
+		setTodoListData(newTodoList);
 		setDescription('');
 	};
 

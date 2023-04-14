@@ -1,12 +1,9 @@
-import { TodoData } from '../App';
+import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import TodoListRow from './TodoListRow';
 
-type Props = {
-	todoListData: TodoData[];
-};
+const TodoList = () => {
+	const { todoListData } = useTodoListContext();
 
-const TodoList = (props: Props) => {
-	const { todoListData } = props;
 	return (
 		<ul className='flex flex-col '>
 			{todoListData.length &&

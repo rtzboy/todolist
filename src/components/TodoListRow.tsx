@@ -1,15 +1,19 @@
 import { TodoData } from '../App';
 import { getTodoList, putTodoList } from '../helpers/localStorage';
+import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import { Check, DoubleCheck, MoveUpDown } from './icons/Check';
 import Xmark from './icons/Xmark';
 
 const TodoListRow = (props: TodoData) => {
+	const { setTodoListData } = useTodoListContext();
+
 	const { id, description, completed, date } = props;
 
 	const handleDelete = (idItem: string) => {
 		const todoListStorage: TodoData[] = getTodoList('todoList');
 		const filterList = todoListStorage.filter(item => item.id !== idItem);
 		putTodoList('todoList', filterList);
+		setTodoListData(filterList);
 	};
 
 	return (
