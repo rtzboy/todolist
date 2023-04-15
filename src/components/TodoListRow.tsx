@@ -1,6 +1,9 @@
+import { Dispatch, useState } from 'react';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import { TodoData } from '../types/TodoTasksTypes';
 import { Check, DoubleCheck, MoveUpDown } from './icons/Check';
+import CheckDoc from './icons/CheckDoc';
+import Edit from './icons/Edit';
 import Xmark from './icons/Xmark';
 
 const TodoListRow = (props: TodoData) => {
@@ -8,16 +11,13 @@ const TodoListRow = (props: TodoData) => {
 
 	const { id, description, completed, date } = props;
 
+	const [editing, setEditing] = useState(false);
+
 	const handleDelete = (idItem: string) => {
 		dispatchTodoList({ type: 'DELETE_TODO_TASK', payload: idItem });
 	};
 
-	const handleUpdate = (evt: React.ChangeEvent<HTMLInputElement>, idTask: string) => {
-		dispatchTodoList({
-			type: 'EDIT_TODO_TASK',
-			payload: { id: idTask, description, completed: evt.target.checked }
-		});
-	};
+	const editState = buttonEdit({ editing, description, setEditing });
 
 	return (
 		<li className='flex items-center justify-between gap-2 border-b border-b-slate-300 py-2'>
@@ -26,22 +26,67 @@ const TodoListRow = (props: TodoData) => {
 					<input
 						type='checkbox'
 						checked={completed}
-						onChange={evt => handleUpdate(evt, id)}
+						onChange={evt =>
+							dispatchTodoList({
+								type: 'EDIT_TODO_TASK',
+								payload: { id, description, completed: evt.target.checked }
+							})
+						}
 						className='absolute -z-10 appearance-none'
 					/>
 					{completed ? <DoubleCheck className='h-6 text-green-700' /> : <Check className='h-6' />}
 				</label>
-				<span>{description}</span>
+				{editing ? (
+					<textarea
+						rows={Math.ceil(description.length / 50)}
+						value={description}
+						maxLength={120}
+						onChange={evt =>
+							dispatchTodoList({
+								type: 'EDIT_TODO_TASK',
+								payload: { id, description: evt.target.value, completed }
+							})
+						}
+						className='w-[400px] resize-none rounded-md px-2 py-1 shadow-sm outline-none'
+					/>
+				) : (
+					<span className='w-[400px] overflow-auto'>{description}</span>
+				)}
 			</div>
 			<div className='flex items-center gap-2'>
-				<span onClick={() => handleDelete(id)}>
+				{editState}
+				<span onClick={() => handleDelete(id)} className='cursor-pointer'>
 					<Xmark className='h-5' />
 				</span>
-				<span className='text-gray-500'>
-					<MoveUpDown className='h-6' fill='gray' />
+				<span className='cursor-pointer text-gray-500'>
+					<MoveUpDown className='h-6' fill='#fff' />
 				</span>
 			</div>
 		</li>
+	);
+};
+
+type buttonEditType = {
+	editing: boolean;
+	description: string;
+	setEditing: Dispatch<React.SetStateAction<boolean>>;
+};
+
+const buttonEdit = ({ editing, description, setEditing }: buttonEditType) => {
+	if (editing)
+		return (
+			<button
+				onClick={() => setEditing(false)}
+				disabled={!description}
+				className='disabled:opacity-50'
+			>
+				<CheckDoc className='h-6' />
+			</button>
+		);
+	return (
+		<span onClick={() => setEditing(true)} className='cursor-pointer'>
+			<Edit className='h-5' />
+		</span>
 	);
 };
 
