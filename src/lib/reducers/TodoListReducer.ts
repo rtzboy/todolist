@@ -17,6 +17,16 @@ const todoListReducer = (state: TodoData[], action: TodoListReducerType) => {
 			return newTodoTask;
 		}
 
+		case 'EDIT_TODO_TASK': {
+			const idxTodoTask = state.findIndex(task => task.id === action.payload.id);
+			state[idxTodoTask] = {
+				...state[idxTodoTask],
+				description: action.payload.description,
+				completed: action.payload.completed
+			};
+			putTodoList('todoList', state);
+		}
+
 		case 'DELETE_TODO_TASK': {
 			const filterTodoTask = state.filter(item => item.id !== action.payload);
 			putTodoList('todoList', filterTodoTask);

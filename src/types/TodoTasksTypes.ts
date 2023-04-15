@@ -13,9 +13,18 @@ export interface AddTodoTask {
 	};
 }
 
+export interface EditTodoTask {
+	type: 'EDIT_TODO_TASK';
+	payload: {
+		id: string;
+		description: string;
+		completed: boolean;
+	};
+}
+
 export interface DeleteTodoTask {
 	type: 'DELETE_TODO_TASK';
 	payload: string;
 }
 
-export type TodoListReducerType = AddTodoTask | DeleteTodoTask;
+export type TodoListReducerType = AddTodoTask | EditTodoTask | DeleteTodoTask;

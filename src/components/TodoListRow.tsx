@@ -12,12 +12,25 @@ const TodoListRow = (props: TodoData) => {
 		dispatchTodoList({ type: 'DELETE_TODO_TASK', payload: idItem });
 	};
 
+	const handleUpdate = (evt: React.ChangeEvent<HTMLInputElement>, idTask: string) => {
+		dispatchTodoList({
+			type: 'EDIT_TODO_TASK',
+			payload: { id: idTask, description, completed: evt.target.checked }
+		});
+	};
+
 	return (
-		<li className='flex items-center justify-between gap-2 border-b-2 border-b-slate-300 py-2'>
+		<li className='flex items-center justify-between gap-2 border-b border-b-slate-300 py-2'>
 			<div className='flex items-center gap-2'>
-				<span className='text-gray-500'>
+				<label className='relative cursor-pointer rounded-full border-slate-800 p-1 transition-all hover:bg-slate-100'>
+					<input
+						type='checkbox'
+						checked={completed}
+						onChange={evt => handleUpdate(evt, id)}
+						className='absolute -z-10 appearance-none'
+					/>
 					{completed ? <DoubleCheck className='h-6 text-green-700' /> : <Check className='h-6' />}
-				</span>
+				</label>
 				<span>{description}</span>
 			</div>
 			<div className='flex items-center gap-2'>
