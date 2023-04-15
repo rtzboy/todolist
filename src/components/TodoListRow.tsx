@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns';
 import { Dispatch, useState } from 'react';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import { TodoData } from '../types/TodoTasksTypes';
@@ -50,7 +51,12 @@ const TodoListRow = (props: TodoData) => {
 						className='w-[400px] resize-none rounded-md px-2 py-1 shadow-sm outline-none'
 					/>
 				) : (
-					<span className='w-[400px] overflow-auto'>{description}</span>
+					<div className='flex flex-col'>
+						<span className='w-[400px] overflow-auto'>{description}</span>
+						<span className='text-sm text-gray-500'>
+							{formatDistanceToNow(date, { addSuffix: true })}
+						</span>
+					</div>
 				)}
 			</div>
 			<div className='flex items-center gap-2'>
