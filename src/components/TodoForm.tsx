@@ -23,11 +23,11 @@ const TodoForm = () => {
 				value={description}
 				placeholder='Add task'
 				type='text'
-				className='flex-grow border-b-2 border-b-gray-500 px-3 py-1 tracking-wide outline-none placeholder:italic'
+				className='flex-grow rounded-lg bg-neutral-800 px-3 py-1 tracking-wide outline-none placeholder:italic'
 			/>
 			<button
 				disabled={!description}
-				className='rounded-md bg-blue-500 px-2 py-1 text-white transition-all disabled:opacity-40'
+				className='rounded-md bg-amber-800 px-2 py-1 text-white transition-all disabled:opacity-40'
 				type='submit'
 			>
 				Add

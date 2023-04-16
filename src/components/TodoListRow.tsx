@@ -1,25 +1,34 @@
+import { motion } from 'framer-motion';
 import { Dispatch, useState } from 'react';
+import { taskFadeIn } from '../constants/MotionAnimation';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import { TodoData } from '../types/TodoTasksTypes';
 import TaskEditArea from './TaskEditArea';
-import { Check, DoubleCheck, MoveUpDown } from './icons/Check';
+import { Check, DoubleCheck } from './icons/Check';
 import CheckDoc from './icons/CheckDoc';
 import Edit from './icons/Edit';
 import Xmark from './icons/Xmark';
 
-const TodoListRow = (props: TodoData) => {
+type TodoListRowProps = {
+	todoTask: TodoData;
+};
+
+const TodoListRow = ({ todoTask }: TodoListRowProps) => {
 	const { dispatchTodoList } = useTodoListContext();
 
-	const { id, description, completed, date } = props;
+	const { id, description, completed, date } = todoTask;
 
 	const [editing, setEditing] = useState(false);
 
 	const editState = buttonEdit({ editing, description, setEditing, completed });
 
 	return (
-		<li className='flex items-center justify-between gap-2 border-b border-b-slate-300 py-2'>
+		<motion.li
+			variants={taskFadeIn()}
+			className='flex items-center justify-between gap-2 border-b border-b-amber-50/20 py-2 last:border-none'
+		>
 			<div className='flex items-center gap-2'>
-				<label className='relative cursor-pointer rounded-full border-slate-800 p-1 transition-all hover:bg-slate-100'>
+				<label className='relative cursor-pointer rounded-full border-slate-800 p-1 transition-all hover:bg-amber-50/10'>
 					<input
 						type='checkbox'
 						checked={completed}
@@ -31,7 +40,9 @@ const TodoListRow = (props: TodoData) => {
 						}
 						className='absolute -z-10 appearance-none'
 					/>
-					{completed ? <DoubleCheck className='h-6 text-green-700' /> : <Check className='h-6' />}
+					<motion.span initial='hidden' animate='visible'>
+						{completed ? <DoubleCheck className='h-6 text-green-400' /> : <Check className='h-6' />}
+					</motion.span>
 				</label>
 				<TaskEditArea
 					id={id}
@@ -49,11 +60,8 @@ const TodoListRow = (props: TodoData) => {
 				>
 					<Xmark className='h-5' />
 				</span>
-				<span className='cursor-pointer text-gray-500'>
-					<MoveUpDown className='h-6' fill='#fff' />
-				</span>
 			</div>
-		</li>
+		</motion.li>
 	);
 };
 
@@ -78,11 +86,22 @@ const buttonEdit = ({ editing, description, completed, setEditing }: ButtonEditT
 	return (
 		<>
 			{completed ? (
-				<span></span>
-			) : (
-				<span onClick={() => setEditing(true)} className='cursor-pointer'>
+				<motion.span
+					initial='visible'
+					animate='hidden'
+					className='opacity-0 transition-all delay-200'
+				>
 					<Edit className='h-5' />
-				</span>
+				</motion.span>
+			) : (
+				<motion.span
+					initial='hidden'
+					animate='visible'
+					onClick={() => setEditing(true)}
+					className='cursor-pointer'
+				>
+					<Edit className='h-5' />
+				</motion.span>
 			)}
 		</>
 	);
