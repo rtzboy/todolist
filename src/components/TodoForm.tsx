@@ -17,7 +17,7 @@ const TodoForm = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className='mb-5 flex gap-1'>
+		<form onSubmit={handleSubmit} className='flex gap-1'>
 			<input
 				onChange={handleChange}
 				value={description}

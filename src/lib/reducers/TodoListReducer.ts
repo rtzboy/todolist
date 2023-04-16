@@ -5,13 +5,13 @@ const todoListReducer = (state: TodoData[], action: TodoListReducerType) => {
 	switch (action.type) {
 		case 'ADD_TODO_TASK': {
 			const newTodoTask = [
-				...state,
 				{
 					id: action.payload.id,
 					description: action.payload.description,
 					completed: false,
 					date: Date.now()
-				}
+				},
+				...state
 			];
 			putTodoList('todoList', newTodoTask);
 			return newTodoTask;

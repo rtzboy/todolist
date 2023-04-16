@@ -3,21 +3,28 @@ export const SVGFadeIn = (duration: number) => ({
 	visible: { pathLength: 1, transition: { duration } }
 });
 
-export const taskFadeIn = () => ({
-	hidden: { x: 100, opacity: 0, scale: 0.7 },
-	visible: { x: 0, opacity: 1, scale: 1, transition: { duration: 1 } }
-});
-
-export const ulParent = (delay: number) => ({
+export const taskList = (delay: number) => ({
+	hidden: {
+		transition: {
+			when: 'afterChildren'
+		}
+	},
 	visible: {
 		transition: {
 			when: 'beforeChildren',
 			staggerChildren: delay
 		}
-	},
-	hidden: {
-		transition: {
-			when: 'afterChildren'
-		}
 	}
+});
+
+export const taskItem = () => ({
+	hidden: { scale: 0.8, opacity: 0, x: 200 },
+	visible: { scale: 1, opacity: 1, x: 0, transition: { type: 'spring' } }
+});
+
+export const exitTaskItem = () => ({
+	scale: 0.8,
+	opacity: 0,
+	x: 200,
+	transition: { duration: 0.5 }
 });

@@ -1,20 +1,25 @@
-import { motion } from 'framer-motion';
-import { ulParent } from '../constants/MotionAnimation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { taskList } from '../constants/MotionAnimation';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import TodoListRow from './TodoListRow';
 
 const TodoList = () => {
 	const { todoListData } = useTodoListContext();
 
+	if (!todoListData.length) return <div className='text-center italic'>EmptyElements</div>;
+
 	return (
 		<motion.ul
 			initial='hidden'
 			animate='visible'
-			variants={ulParent(0.4)}
+			variants={taskList(0.2)}
 			className='flex flex-col overflow-hidden'
 		>
-			{todoListData.length &&
-				todoListData.map(todoList => <TodoListRow key={todoList.id} todoTask={todoList} />)}
+			<AnimatePresence>
+				{todoListData.map(todoList => (
+					<TodoListRow key={todoList.id} todoTask={todoList} />
+				))}
+			</AnimatePresence>
 		</motion.ul>
 	);
 };

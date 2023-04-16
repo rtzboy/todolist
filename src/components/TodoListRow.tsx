@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Dispatch, useState } from 'react';
-import { taskFadeIn } from '../constants/MotionAnimation';
+import { exitTaskItem, taskItem } from '../constants/MotionAnimation';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import { TodoData } from '../types/TodoTasksTypes';
 import TaskEditArea from './TaskEditArea';
@@ -24,7 +24,10 @@ const TodoListRow = ({ todoTask }: TodoListRowProps) => {
 
 	return (
 		<motion.li
-			variants={taskFadeIn()}
+			layout
+			variants={taskItem()}
+			exit={exitTaskItem()}
+			transition={{ duration: 1, type: 'spring' }}
 			className='flex items-center justify-between gap-2 border-b border-b-amber-50/20 py-2 last:border-none'
 		>
 			<div className='flex items-center gap-2'>
@@ -56,7 +59,7 @@ const TodoListRow = ({ todoTask }: TodoListRowProps) => {
 				{editState}
 				<span
 					onClick={() => dispatchTodoList({ type: 'DELETE_TODO_TASK', payload: id })}
-					className='cursor-pointer'
+					className='cursor-pointer rounded-full p-1 transition-all hover:bg-red-600/10'
 				>
 					<Xmark className='h-5' />
 				</span>
@@ -98,7 +101,7 @@ const buttonEdit = ({ editing, description, completed, setEditing }: ButtonEditT
 					initial='hidden'
 					animate='visible'
 					onClick={() => setEditing(true)}
-					className='cursor-pointer'
+					className='cursor-pointer rounded-full p-1 transition-all hover:bg-blue-600/10'
 				>
 					<Edit className='h-5' />
 				</motion.span>
