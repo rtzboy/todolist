@@ -1,12 +1,13 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, Reorder, motion } from 'framer-motion';
 import { useState } from 'react';
 import { taskList } from '../constants/MotionAnimation';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
+import { TodoData } from '../types/TodoTasksTypes';
 import TodoListRow from './TodoListRow';
 import PlusDoc from './icons/PlusDoc';
 
 const TodoList = () => {
-	const { todoListData, filterTasks } = useTodoListContext();
+	const { todoListData, filterTasks, dispatchTodoList } = useTodoListContext();
 	const [isDisabled, setIsDisabled] = useState(false);
 
 	if (!todoListData.length)
@@ -21,21 +22,26 @@ const TodoList = () => {
 			</motion.div>
 		);
 
-	let taskListDone;
+	let taskListDone: TodoData[] = [];
 
 	if (filterTasks === 'allTask') taskListDone = todoListData;
 	if (filterTasks === 'activeTask') taskListDone = todoListData.filter(item => !item.completed);
 	if (filterTasks === 'completedTask') taskListDone = todoListData.filter(item => item.completed);
 
 	return (
-		<motion.ul
+		<Reorder.Group
+			axis='y'
+			onReorder={taskListDone =>
+				dispatchTodoList({ type: 'REORDER_TODO_TASK', payload: { taskListDone } })
+			}
+			values={taskListDone}
 			initial='hidden'
 			animate='visible'
 			variants={taskList(0.2)}
 			className='flex flex-col overflow-hidden'
 		>
 			<AnimatePresence>
-				{taskListDone?.map(todoList => (
+				{taskListDone.map(todoList => (
 					<TodoListRow
 						key={todoList.id}
 						todoTask={todoList}
@@ -44,7 +50,7 @@ const TodoList = () => {
 					/>
 				))}
 			</AnimatePresence>
-		</motion.ul>
+		</Reorder.Group>
 	);
 };
 

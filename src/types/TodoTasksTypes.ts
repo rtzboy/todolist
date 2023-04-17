@@ -27,6 +27,11 @@ export interface DeleteTodoTask {
 	payload: string;
 }
 
-export type TodoListReducerType = AddTodoTask | EditTodoTask | DeleteTodoTask;
+export interface ReorderTodoTask {
+	type: 'REORDER_TODO_TASK';
+	payload: { taskListDone: TodoData[] };
+}
+
+export type TodoListReducerType = AddTodoTask | EditTodoTask | DeleteTodoTask | ReorderTodoTask;
 
 export type FiltersType = 'allTask' | 'activeTask' | 'completedTask';

@@ -1,13 +1,13 @@
-import { motion } from 'framer-motion';
+import { motion, Reorder, useDragControls } from 'framer-motion';
 import { Dispatch, useState } from 'react';
 import { exitTaskItem, taskItem } from '../constants/MotionAnimation';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
 import { TodoData } from '../types/TodoTasksTypes';
-import TaskEditArea from './TaskEditArea';
-import { Check, DoubleCheck } from './icons/Check';
+import { Check, DoubleCheck, MoveUpDown } from './icons/Check';
 import CheckDoc from './icons/CheckDoc';
 import Edit from './icons/Edit';
 import Xmark from './icons/Xmark';
+import TaskEditArea from './TaskEditArea';
 
 type TodoListRowProps = {
 	setIsDisabled: Dispatch<React.SetStateAction<boolean>>;
@@ -16,20 +16,25 @@ type TodoListRowProps = {
 };
 
 const TodoListRow = ({ todoTask, isDisabled, setIsDisabled }: TodoListRowProps) => {
-	const { dispatchTodoList } = useTodoListContext();
+	const { dispatchTodoList, filterTasks } = useTodoListContext();
 
-	const { id, description, completed, date } = todoTask;
+	const { id, description, completed } = todoTask;
 
 	const [editing, setEditing] = useState(false);
 
+	const dragControls = useDragControls();
+
 	const editState = buttonEdit({ editing, description, setEditing, completed });
 
+	let disableReorder = filterTasks === 'activeTask' || filterTasks === 'completedTask';
+
 	return (
-		<motion.li
-			layout
-			variants={taskItem()}
+		<Reorder.Item
 			exit={exitTaskItem()}
-			transition={{ duration: 1, type: 'spring' }}
+			variants={taskItem()}
+			value={todoTask}
+			dragListener={false}
+			dragControls={dragControls}
 			className='flex items-center justify-between gap-2 border-b border-b-amber-50/20 py-2 last:border-none'
 		>
 			<div className='flex items-center gap-2'>
@@ -51,7 +56,7 @@ const TodoListRow = ({ todoTask, isDisabled, setIsDisabled }: TodoListRowProps) 
 				</label>
 				<TaskEditArea todoTask={todoTask} editing={editing} />
 			</div>
-			<div className='flex items-center gap-2'>
+			<div className='flex items-center gap-1'>
 				{editState}
 				<button
 					disabled={isDisabled}
@@ -60,14 +65,24 @@ const TodoListRow = ({ todoTask, isDisabled, setIsDisabled }: TodoListRowProps) 
 						setIsDisabled(true);
 						setTimeout(() => {
 							setIsDisabled(false);
-						}, 1300);
+						}, 900);
 					}}
 					className='cursor-pointer rounded-full p-1 transition-all hover:bg-red-600/10 disabled:cursor-default disabled:opacity-50 disabled:hover:bg-inherit'
 				>
 					<Xmark className='h-5' />
 				</button>
+				<button
+					disabled={disableReorder}
+					className='cursor-grab select-none rounded-full p-1 transition-all hover:bg-green-600/10 disabled:cursor-default disabled:opacity-40 disabled:hover:bg-inherit'
+				>
+					{disableReorder ? (
+						<MoveUpDown className='h-5' />
+					) : (
+						<MoveUpDown className='h-5' dragControls={dragControls} />
+					)}
+				</button>
 			</div>
-		</motion.li>
+		</Reorder.Item>
 	);
 };
 

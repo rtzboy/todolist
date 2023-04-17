@@ -30,7 +30,7 @@ const TaskEditArea = ({ todoTask, editing }: TaskEditAreaProps) => {
 	return (
 		<div className={`flex flex-col transition-all duration-700 ${completed ? 'opacity-50' : ''}`}>
 			<span
-				className={`w-[400px] overflow-auto transition-all duration-700 ${
+				className={`w-[390px] overflow-auto transition-all duration-700 ${
 					completed ? 'line-through' : ''
 				}`}
 			>

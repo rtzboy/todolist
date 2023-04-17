@@ -33,6 +33,12 @@ const todoListReducer = (state: TodoData[], action: TodoListReducerType) => {
 			return filterTodoTask;
 		}
 
+		case 'REORDER_TODO_TASK': {
+			const reorderState = action.payload.taskListDone;
+			putTodoList('todoList', reorderState);
+			return reorderState;
+		}
+
 		default:
 			throw new Error(`Error on action: ${action}`);
 	}

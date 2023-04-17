@@ -1,8 +1,10 @@
-import { motion } from 'framer-motion';
+import { DragControls, motion } from 'framer-motion';
 import React from 'react';
 import { SVGFadeIn } from '../../constants/MotionAnimation';
 
-export interface SVGProps extends React.SVGProps<SVGSVGElement> {}
+export interface SVGProps extends React.SVGProps<SVGSVGElement> {
+	dragControls?: DragControls;
+}
 
 const Check = (props: SVGProps) => (
 	<svg
@@ -48,11 +50,10 @@ const DoubleCheck = (props: SVGProps) => (
 	</svg>
 );
 
-const MoveUpDown = (props: SVGProps) => {
-	const { className, fill } = props;
+const MoveUpDown = ({ dragControls, ...props }: SVGProps) => {
 	return (
 		<svg
-			className={className || ''}
+			{...props}
 			xmlns='http://www.w3.org/2000/svg'
 			fill='none'
 			stroke='currentColor'
@@ -60,10 +61,11 @@ const MoveUpDown = (props: SVGProps) => {
 			strokeLinejoin='round'
 			strokeWidth='1.25'
 			viewBox='0 0 24 24'
+			onPointerDown={evt => dragControls?.start(evt)}
 		>
 			<path stroke='none' d='M0 0h24v24H0z'></path>
-			<path d='M16 9l-4-4-4 4h8' fill={fill}></path>
-			<path d='M16 18l-4 4-4-4h8' fill={fill}></path>
+			<path d='M16 9l-4-4-4 4h8' fill='none'></path>
+			<path d='M16 18l-4 4-4-4h8' fill='none'></path>
 			<line x1='6' y1='12' x2='18' y2='12'></line>
 			<line x1='6' y1='15' x2='18' y2='15'></line>
 		</svg>
