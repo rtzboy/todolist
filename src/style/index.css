@@ -6,3 +6,18 @@
 body {
 	@apply bg-neutral-900;
 }
+
+*::-webkit-scrollbar {
+	width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+	@apply bg-neutral-800;
+	@apply rounded-xl;
+}
+
+*::-webkit-scrollbar-thumb {
+	@apply bg-neutral-700;
+	border-radius: 14px;
+	@apply border-4 border-neutral-700;
+}

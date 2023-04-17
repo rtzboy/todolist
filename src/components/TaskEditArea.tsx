@@ -1,17 +1,15 @@
 import { formatDistanceToNow } from 'date-fns';
 import { useTodoListContext } from '../lib/contexts/TodoListContext';
+import { TodoData } from '../types/TodoTasksTypes';
 
 type TaskEditAreaProps = {
-	id: string;
-	description: string;
-	completed: boolean;
-	date: number;
+	todoTask: TodoData;
 	editing: boolean;
 };
 
-const TaskEditArea = (props: TaskEditAreaProps) => {
+const TaskEditArea = ({ todoTask, editing }: TaskEditAreaProps) => {
 	const { dispatchTodoList } = useTodoListContext();
-	const { id, description, completed, date, editing } = props;
+	const { id, description, completed, date } = todoTask;
 
 	if (editing)
 		return (

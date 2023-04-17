@@ -1,4 +1,4 @@
-import { TodoData } from '../App';
+import { TodoData } from '../types/TodoTasksTypes';
 
 const getTodoList = (key: string) => {
 	if (localStorage) {

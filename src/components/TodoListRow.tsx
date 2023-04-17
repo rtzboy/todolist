@@ -10,10 +10,12 @@ import Edit from './icons/Edit';
 import Xmark from './icons/Xmark';
 
 type TodoListRowProps = {
+	setIsDisabled: Dispatch<React.SetStateAction<boolean>>;
+	isDisabled: boolean;
 	todoTask: TodoData;
 };
 
-const TodoListRow = ({ todoTask }: TodoListRowProps) => {
+const TodoListRow = ({ todoTask, isDisabled, setIsDisabled }: TodoListRowProps) => {
 	const { dispatchTodoList } = useTodoListContext();
 
 	const { id, description, completed, date } = todoTask;
@@ -47,22 +49,23 @@ const TodoListRow = ({ todoTask }: TodoListRowProps) => {
 						{completed ? <DoubleCheck className='h-6 text-green-400' /> : <Check className='h-6' />}
 					</motion.span>
 				</label>
-				<TaskEditArea
-					id={id}
-					description={description}
-					completed={completed}
-					date={date}
-					editing={editing}
-				/>
+				<TaskEditArea todoTask={todoTask} editing={editing} />
 			</div>
 			<div className='flex items-center gap-2'>
 				{editState}
-				<span
-					onClick={() => dispatchTodoList({ type: 'DELETE_TODO_TASK', payload: id })}
-					className='cursor-pointer rounded-full p-1 transition-all hover:bg-red-600/10'
+				<button
+					disabled={isDisabled}
+					onClick={() => {
+						dispatchTodoList({ type: 'DELETE_TODO_TASK', payload: id });
+						setIsDisabled(true);
+						setTimeout(() => {
+							setIsDisabled(false);
+						}, 1300);
+					}}
+					className='cursor-pointer rounded-full p-1 transition-all hover:bg-red-600/10 disabled:cursor-default disabled:opacity-50 disabled:hover:bg-inherit'
 				>
 					<Xmark className='h-5' />
-				</span>
+				</button>
 			</div>
 		</motion.li>
 	);

@@ -28,3 +28,7 @@ export const exitTaskItem = () => ({
 	x: 200,
 	transition: { duration: 0.5 }
 });
+
+export const headerInit = () => ({ scale: 0.7 });
+
+export const headerAnimate = () => ({ scale: 1, transition: { type: 'spring' } });

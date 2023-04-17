@@ -28,3 +28,5 @@ export interface DeleteTodoTask {
 }
 
 export type TodoListReducerType = AddTodoTask | EditTodoTask | DeleteTodoTask;
+
+export type FiltersType = 'allTask' | 'activeTask' | 'completedTask';
