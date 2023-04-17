@@ -16,7 +16,7 @@ const App = () => {
 	return (
 		<div>
 			<TodoListContext.Provider value={{ todoListData, dispatchTodoList, filterTasks }}>
-				<header className='mx-auto mt-5 max-w-xl bg-neutral-800/50 p-5 text-amber-50'>
+				<header className='mx-auto max-w-xl bg-neutral-800/50 p-5 text-amber-50 sm:mt-5'>
 					<motion.h1 initial={headerInit()} animate={headerAnimate()} className='mb-5 text-4xl'>
 						Todo List
 					</motion.h1>

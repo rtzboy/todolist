@@ -23,7 +23,7 @@ const TaskEditArea = ({ todoTask, editing }: TaskEditAreaProps) => {
 						payload: { id, description: evt.target.value, completed }
 					})
 				}
-				className='w-[400px] resize-none rounded-md bg-neutral-800 px-2 py-1 shadow-sm outline-none'
+				className='w-auto max-w-[390px] resize-none rounded-md bg-neutral-800 px-2 py-1 shadow-sm outline-none'
 			/>
 		);
 
