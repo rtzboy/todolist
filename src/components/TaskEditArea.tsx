@@ -14,7 +14,7 @@ const TaskEditArea = ({ todoTask, editing }: TaskEditAreaProps) => {
 	if (editing)
 		return (
 			<textarea
-				rows={Math.ceil(description.length / 50)}
+				rows={2}
 				value={description}
 				maxLength={120}
 				onChange={evt =>
@@ -23,19 +23,19 @@ const TaskEditArea = ({ todoTask, editing }: TaskEditAreaProps) => {
 						payload: { id, description: evt.target.value, completed }
 					})
 				}
-				className='w-auto max-w-[390px] resize-none rounded-md bg-neutral-800 px-2 py-1 shadow-sm outline-none'
+				className='w-full max-w-[390px] resize-none rounded-md bg-neutral-800 px-2 py-1 shadow-sm outline-none'
 			/>
 		);
 
 	return (
-		<div className={`flex flex-col transition-all duration-700 ${completed ? 'opacity-50' : ''}`}>
-			<span
-				className={`w-auto max-w-[390px] overflow-auto transition-all duration-700 ${
-					completed ? 'line-through' : ''
-				}`}
-			>
+		<div
+			className={`flex w-full max-w-[390px] flex-col transition-all duration-700 ${
+				completed ? 'opacity-50' : ''
+			}`}
+		>
+			<p className={`overflow-auto transition-all duration-700 ${completed ? 'line-through' : ''}`}>
 				{description}
-			</span>
+			</p>
 			<span className='text-sm italic text-gray-500'>
 				{formatDistanceToNow(date, { addSuffix: true })}
 			</span>

@@ -37,7 +37,7 @@ const TodoListRow = ({ todoTask, isDisabled, setIsDisabled }: TodoListRowProps) 
 			dragControls={dragControls}
 			className='flex items-center justify-between gap-2 border-b border-b-amber-50/20 bg-[#1e1e1e] py-2 last:border-none'
 		>
-			<div className='flex items-center gap-2'>
+			<div className='flex w-full items-center gap-2'>
 				<label className='relative cursor-pointer rounded-full border-slate-800 p-1 transition-all hover:bg-amber-50/10'>
 					<input
 						type='checkbox'
